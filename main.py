@@ -7,7 +7,7 @@ import openai
 from database_handler import load_database, update_database  # Import the database functions
 
 # Load the calorie and workout database
-csv_path = '/Users/arnavagrawal/Documents/arda-HSC24/data/main_data.csv'
+csv_path = 'data/main_data.csv'
 df = load_database(filepath=csv_path)  # Load or initialize the database
 
 st.write("""
@@ -15,7 +15,7 @@ st.write("""
 ### Hope your day is going great so far. Stay healthy!
 """)
 
-st.write("## New workout? Add it!")
+st.write("## What did you eat today? Did you remember to move?")
 
 col1, col2, col3 = st.columns(3)
 
@@ -42,7 +42,7 @@ lunch = st.text_input("Lunch (e.g., chicken sandwich, salad):")
 dinner = st.text_input("Dinner (e.g., steak, mashed potatoes):")
 
 
-# openai api key
+# openai api key (DESTROY BEFORE MAKING REPO PUBLIC)
 openai.api_key = "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"
 
 # calculating total calories consumed on a particular day
@@ -92,11 +92,14 @@ custom_prompt = (
 # declaring a variable to store the result
 total_calories = None
 
+# Checks if calories have been successfully calculated before allowing the data to be recorded.
+calculated = False
 # calculating the total cals by using the calculate_total_calories function
 if st.button("Calculate"):
     try:
         total_calories = calculate_total_calories(breakfast, lunch, dinner, custom_prompt)
         st.success(f"Your total calorie intake for the day is: {total_calories} kcal")
+        calculated = True
     except Exception as e:
         st.error(f"An error occurred: {e}")
 
@@ -105,7 +108,7 @@ if total_calories is not None:
     st.write(f"**Total Calories:** {total_calories} kcal")
 
 # Record Data
-if st.button("Record data"):
+if st.button("Record data", disabled=(not calculated)):
     total_calories = calculate_total_calories(breakfast, lunch, dinner)  # Calculate total calories
     combined_date_time = datetime.datetime.combine(date, time)  # Keep both date and time
     
@@ -125,13 +128,14 @@ if st.button("Record data"):
     )
 
     st.success("Data recorded successfully!")
+    calculated = False
     # Reload the database after saving new data
     df = load_database(filepath=csv_path)
 
 
 # Display updated data below only once
 st.write("## Your Workout and Meal Data:")
-st.dataframe(df)
+st.dataframe(df.sort_values("Date", ascending=True))
 
 
 #============================================================
@@ -157,7 +161,7 @@ def evaluate_daily_goal(df, calorie_goal=1300):
     
     # Add a new column 'Goal Met' based on the calorie goal
     copy_df['Goal Met'] = copy_df['Net Calories'].apply(lambda x: 'Yes' if x <= calorie_goal else 'No')
-    
+    copy_df = copy_df.sort_values('Date', ascending = True)
     return copy_df
 
 
@@ -224,10 +228,11 @@ if st.button("Analyze"):
 
     total_calories_burned = copy_df['Calories Burned'].sum()
     total_distance_travelled = copy_df['Distance Travelled (m)'].sum()
-    food_data = pd.read_csv('/Users/arnavagrawal/Documents/arda-HSC24/data/fastfood.csv')
+    food_data = pd.read_csv('data/fastfood.csv')
     # Randomly select a food item from the dataset
     random_food = food_data.sample(1).iloc[0]
     food_name = random_food['item']
+    food_brand = random_food['restaurant']
     food_calories = random_food['calories']
 
     # Calculate the equivalent number of food items burned
@@ -261,5 +266,5 @@ if st.button("Analyze"):
     comparison_result = compare_distance_to_landmarks(total_distance_travelled)
 
     # Return the contextualized statement
-    st.write(f"You burned the equivalent of eating {equivalent_quantity:.1f} {food_name}s!!")
+    st.write(f"You burned the equivalent of eating {equivalent_quantity:.1f} {food_name}s from {food_brand}!!")
     st.write(f"You also ran the equivalent of {comparison_result}!")
