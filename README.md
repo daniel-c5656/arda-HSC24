@@ -8,6 +8,7 @@ Ensure you have a Python environment with the following libraries:
 - Streamlit
 - Pandas
 - NumPy
+- Matplotlib
 - OpenAI API (v.0.28)
 
 Ensure `fastfood.csv` and `main_data.csv` are in the `data` folder.
