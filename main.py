@@ -238,31 +238,35 @@ if st.button("Analyze"):
     # Calculate the equivalent number of food items burned
     equivalent_quantity = total_calories_burned / food_calories
     def compare_distance_to_landmarks(total_distance):
-    # Define the prompt for OpenAI API
+        # Define a detailed prompt to guide the API for varied, accurate comparisons
         prompt = (
             f"The total distance traveled is {total_distance} meters. "
-            "Compare this distance to famous landmarks or multiples of distances between famous cities. "
-            "Provide a comparison like 'This is equivalent to walking across the Golden Gate Bridge 5 times' or "
-            "'This is equivalent to the distance between New York and Washington D.C.' THe output should be just 'walking across the Golden Gate Bridge 5 times'"
-            " or 'the distance between New York and Washington D.C.' Thats the output you should give, and nothing else."
+            "Provide a fun, relatable comparison using well-known, varied distances such as:\n"
+            "- Golden Gate Bridge (2,737 meters) as 'walking across the Golden Gate Bridge X times'\n"
+            "- Length of a football field (100 meters) as 'walking X football fields'\n"
+            "- Brooklyn Bridge (1,834 meters) as 'walking the Brooklyn Bridge X times'\n"
+            "- Central Park loop (9,656 meters) as 'completing X laps around Central Park'\n"
+            "- Times Square to Empire State Building (650 meters) as 'walking from Times Square to the Empire State Building X times'\n"
+            "Output just the comparison, and make sure to vary it for user engagement. Avoid repetitive landmark usage."
         )
         
         try:
             # Make the API call to OpenAI
             response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",  # Use your existing model
+                model="gpt-3.5-turbo",
                 messages=[{"role": "system", "content": "You are a helpful assistant."},
-                        {"role": "user", "content": prompt}],
+                          {"role": "user", "content": prompt}],
                 max_tokens=100
             )
             
             # Extract the response
             comparison = response['choices'][0]['message']['content'].strip()
             return comparison
-        
+    
         except Exception as e:
             st.error(f"OpenAI API call failed: {e}")
             return "Error: Could not retrieve comparison."
+
     comparison_result = compare_distance_to_landmarks(total_distance_travelled)
 
     # Return the contextualized statement
