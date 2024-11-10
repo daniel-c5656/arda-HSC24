@@ -18,6 +18,9 @@ streamlit run path/to/main.py
 ```
 
 ## Conception and Overview
+
+ARDA is a health data tracking web application which makes data flavorful and contextualizes it for amateurs. It pushes the boundaries of the individual through positive reinforcement in both an informative and whimsical way.
+
 ARDA was conceived as a way to streamline the process of tracking health in a fun and tangible way. Traditional health apps that connect to your watch are excellent at providing information and numbers, but they typically fall short when it comes to showing you the significance of your health decisions. Your smartwatch app tells you that you burned 1500 calories in the last 2 weeks. ARDA emphasises that the calories you burned could run a high end gaming PC for over 2 hours.
 
 Unlike other apps, ARDA forces you to enter the meals you ate for the day WITH your workout data so that you are always accountable for your health. ARDA makes this easy - just describe your meals, and AI does the rest. When it detects that you've been meeting healthy objectives, it'll recommend you a cheat meal to celebrate.
