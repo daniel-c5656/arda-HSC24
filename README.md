@@ -1,6 +1,6 @@
 # ARDA - The Intelligent Health Tracker that Pushes You the Extra Mile
 
-**ARDA** (**A**rsalan **R**ishi **D**aniel **A**rnav) is an AI-powered health data storage and analysis tool that makes keeping track of your health interesting for once. ARDA is built on Python with Streamlit.
+**ARDA** (**A**dvanced **R**egimen & **D**iet **A**dvisor) is an AI-powered health data storage and analysis tool that makes keeping track of your health interesting for once. ARDA is built on Python with Streamlit.
 
 ## Setup
 Ensure you have a Python environment with the following libraries:
