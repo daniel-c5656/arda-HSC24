@@ -7,6 +7,7 @@ import openai
 from database_handler import load_database, update_database  # Import the database functions
 import io
 
+OPENAPI_KEY = "YOUR_KEY_HERE"
 
 # Load the calorie and workout database
 csv_path = 'data/main_data.csv'
@@ -44,8 +45,7 @@ lunch = st.text_input("Lunch (e.g., chicken sandwich, salad):")
 dinner = st.text_input("Dinner (e.g., steak, mashed potatoes):")
 
 
-# openai api key (DESTROY BEFORE MAKING REPO PUBLIC)
-openai.api_key = "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"
+openai.api_key = OPENAPI_KEY
 
 # calculating total calories consumed on a particular day
 def calculate_total_calories(breakfast, lunch, dinner, custom_prompt=None):
